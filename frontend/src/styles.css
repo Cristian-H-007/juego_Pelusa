@@ -1,0 +1,608 @@
+:root {
+  --fondo: #f5f1ea;
+  --superficie: #ffffff;
+  --borde: #e3dccf;
+  --texto: #2d2a32;
+  --suave: #6f6878;
+  --primario: #6b4fbb;
+  --primario-oscuro: #523a99;
+  --exito: #2f8f5b;
+  --aviso: #c77d12;
+  --peligro: #c23b3b;
+  --sombra: 0 2px 10px rgba(45, 42, 50, 0.08);
+  --radio: 14px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--texto);
+  background: var(--fondo);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  min-height: 100vh;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* ---------------------------------------------------------------- estructura */
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+.cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 1.8rem;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+.logo-pelusa {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 40%, #333 0 3px, transparent 4px),
+    radial-gradient(circle at 65% 40%, #333 0 3px, transparent 4px), #b8a9d9;
+  box-shadow: 0 0 0 4px #ddd3f0;
+}
+
+.navegacion {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.navegacion button {
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  border-radius: 999px;
+  padding: 8px 16px;
+  color: var(--suave);
+}
+
+.navegacion button.activo {
+  background: var(--primario);
+  border-color: var(--primario);
+  color: white;
+}
+
+.panel {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 24px;
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.ayuda {
+  color: var(--suave);
+  font-size: 0.92rem;
+}
+
+.error {
+  background: #fdecec;
+  color: var(--peligro);
+  border: 1px solid #f3c4c4;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.cargando {
+  color: var(--suave);
+}
+
+/* ---------------------------------------------------------------- botones */
+
+.boton {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-weight: 600;
+  color: white;
+  background: var(--suave);
+  transition: transform 0.1s, filter 0.15s;
+}
+
+.boton:not(:disabled):hover {
+  filter: brightness(1.08);
+}
+
+.boton:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+.boton.principal {
+  background: var(--primario);
+}
+
+.boton.exito {
+  background: var(--exito);
+}
+
+.boton.aviso {
+  background: var(--aviso);
+}
+
+.boton.secundario {
+  background: transparent;
+  color: var(--primario);
+  border: 2px solid var(--primario);
+}
+
+.boton-icono {
+  border: none;
+  background: transparent;
+  color: var(--suave);
+  font-size: 1rem;
+  padding: 6px 10px;
+}
+
+/* ---------------------------------------------------------------- nueva partida */
+
+.nueva-partida {
+  max-width: 520px;
+  margin: 24px auto;
+}
+
+.lista-jugadores {
+  padding-left: 22px;
+  margin: 0 0 12px;
+}
+
+.lista-jugadores li {
+  margin-bottom: 8px;
+}
+
+.lista-jugadores li > * {
+  vertical-align: middle;
+}
+
+input {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  width: calc(100% - 44px);
+  background: #fdfcfa;
+}
+
+input:focus {
+  outline: 2px solid var(--primario);
+  outline-offset: 1px;
+}
+
+.avanzado {
+  margin: 18px 0;
+  color: var(--suave);
+}
+
+.avanzado label {
+  display: block;
+  margin-top: 10px;
+}
+
+.avanzado input {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.nueva-partida .principal {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 1.05rem;
+}
+
+/* ---------------------------------------------------------------- mesa */
+
+.tablero-superior {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #3f2f6e, #6b4fbb);
+  color: white;
+  border-radius: var(--radio);
+  padding: 18px 24px;
+  box-shadow: var(--sombra);
+}
+
+.monton,
+.descartes {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.descartes {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.monton strong,
+.descartes strong {
+  display: block;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.monton span,
+.descartes span {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.dorso {
+  width: 52px;
+  height: 72px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(45deg, #8f78d4 0 6px, #7a62c4 6px 12px);
+  border: 3px solid white;
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.35), 8px 8px 0 rgba(255, 255, 255, 0.18);
+}
+
+.ultima-carta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  opacity: 0.95;
+}
+
+.carta-vacia {
+  width: 72px;
+  height: 100px;
+  border-radius: 10px;
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+}
+
+.evento {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--superficie);
+  border-left: 5px solid var(--primario);
+  box-shadow: var(--sombra);
+  font-weight: 500;
+}
+
+.evento.peligro {
+  border-left-color: var(--peligro);
+  background: #fdecec;
+}
+
+.evento.aviso {
+  border-left-color: var(--aviso);
+  background: #fdf3e2;
+}
+
+.evento.exito {
+  border-left-color: var(--exito);
+  background: #e8f5ee;
+}
+
+.barra-turno {
+  margin-top: 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 16px 20px;
+  box-shadow: var(--sombra);
+}
+
+.turno {
+  margin: 0 0 12px;
+  font-size: 1.15rem;
+}
+
+.acciones {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Ancho fijo: el texto de "Sacar carta" cambia y no debe desplazar a los demás botones */
+.acciones .boton {
+  min-width: 150px;
+}
+
+.acciones .boton-sacar {
+  min-width: 205px;
+}
+
+.barra-turno .ayuda {
+  margin: 12px 0 0;
+}
+
+.jugadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.jugador {
+  background: var(--superficie);
+  border: 2px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 14px 16px;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.jugador.actual {
+  border-color: var(--primario);
+  box-shadow: 0 0 0 4px #e5ddf7, var(--sombra);
+}
+
+.jugador.ganador {
+  border-color: var(--exito);
+}
+
+.jugador header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jugador h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.insignia {
+  background: var(--primario);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.insignia.suave {
+  background: #efeaf8;
+  color: var(--primario);
+}
+
+.etiqueta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--suave);
+}
+
+.jugador footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--suave);
+  border-top: 1px solid var(--borde);
+  padding-top: 8px;
+  margin-top: auto;
+}
+
+/* ---------------------------------------------------------------- cartas */
+
+.grupos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 84px;
+  align-items: flex-start;
+}
+
+.grupos.vacio {
+  align-items: center;
+  justify-content: center;
+  color: var(--suave);
+  font-size: 0.85rem;
+  border: 2px dashed var(--borde);
+  border-radius: 10px;
+}
+
+.grupo {
+  position: relative;
+}
+
+.pila {
+  display: flex;
+}
+
+.pila .carta + .carta {
+  margin-left: -38px;
+}
+
+.contador {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--texto);
+  color: white;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 6px;
+}
+
+.carta {
+  --color: #b8a9d9;
+  position: relative;
+  width: 54px;
+  height: 78px;
+  border-radius: 8px;
+  background: white;
+  border: 2px solid var(--color);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--texto);
+}
+
+.carta .esquina {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--color);
+  filter: brightness(0.7);
+}
+
+.carta .pelusa {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color) 40%, white);
+}
+
+.carta .ojo {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #2d2a32;
+}
+
+.carta .numero {
+  position: absolute;
+  bottom: 2px;
+  right: 6px;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.carta.grande {
+  width: 72px;
+  height: 100px;
+}
+
+.carta.grande .pelusa {
+  width: 40px;
+  height: 40px;
+}
+
+.carta.grande .numero {
+  font-size: 1.5rem;
+}
+
+.valor-1 { --color: #f2a7a7; }
+.valor-2 { --color: #f5c189; }
+.valor-3 { --color: #efd97a; }
+.valor-4 { --color: #b6dc8a; }
+.valor-5 { --color: #8fd3b6; }
+.valor-6 { --color: #86c6e8; }
+.valor-7 { --color: #94a8ef; }
+.valor-8 { --color: #b79bea; }
+.valor-9 { --color: #e39bd8; }
+.valor-10 { --color: #c9a27a; }
+
+/* ---------------------------------------------------------------- resultado e histórico */
+
+.resultado {
+  margin-top: 24px;
+  border-color: var(--exito);
+}
+
+.ganador {
+  font-size: 1.3rem;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+}
+
+.tabla th,
+.tabla td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.tabla th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--suave);
+}
+
+.fila-ganador {
+  background: #e8f5ee;
+  font-weight: 600;
+}
+
+.chip {
+  display: inline-block;
+  margin: 2px 6px 2px 0;
+  padding: 3px 10px;
+  background: #f1edf8;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.chip.ganador {
+  background: #d7f0e2;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.historico {
+  overflow-x: auto;
+}
+
+@media (max-width: 640px) {
+  .tablero-superior {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ultima-carta {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .acciones .boton {
+    flex: 1 1 45%;
+  }
+}
