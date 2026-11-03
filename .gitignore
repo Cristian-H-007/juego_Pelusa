@@ -1,0 +1,7 @@
+﻿# Sistema / editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+.claude/
