@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>JugadorResponse.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package com.pelusas.api.dto;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.pelusas.dominio.Jugador;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.List;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>public record JugadorResponse(</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        Long id,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        String nombre,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        int posicion,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        List&#60;Integer&#62; cartasDelante,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        List&#60;Integer&#62; montonPuntos,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        int puntos,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        Integer puntuacionFinal,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        boolean ganador) {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public static JugadorResponse desde(Jugador jugador) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_18'/>
+18
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_18'>1</a>
+<span>
+
+1. desde : replaced return value with null for com/pelusas/api/dto/JugadorResponse::desde &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return new JugadorResponse(</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                jugador.getId(),</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                jugador.getNombre(),</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                jugador.getPosicion(),</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                List.copyOf(jugador.getCartasDelante()),</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                List.copyOf(jugador.getMontonPuntos()),</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                jugador.puntos(),</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                jugador.getPuntuacionFinal(),</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                jugador.isGanador());</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@c1539bf_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@c1539bf_18'>18</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@c1539bf_18'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>desde<br/><b>Killed by : </b>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:consultarJugadores()]</span></span> replaced return value with null for com/pelusas/api/dto/JugadorResponse::desde &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:consultarJugadores()] (4 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:obtenerPartida()] (5 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:decidirParar()] (3 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:sacarCarta()] (5 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:decidirContinuar()] (7 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:robarCartas()] (5 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:crearPartida()] (13 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:guardarPelusas()] (7 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:faltaJugadorId()] (41 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:CrearPartida]/[method:creaLaPartida()] (40 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:CrearPartida]/[method:jugadorInicial()] (43 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Consultas]/[method:consultaLosJugadores()] (42 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:ResultadoEHistorico]/[method:resultadoEnCurso()] (49 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Consultas]/[method:consultaLaPartida()] (52 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:plantarseSinSacar()] (48 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:CrearPartida]/[method:semillaReproducible()] (72 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:jugadorDeOtraPartida()] (100 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:continuar()] (96 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:decisionInvalida()] (111 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:turnoPerdido()] (103 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:guardarSinCartas()] (115 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:robarDosVeces()] (111 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:robo()] (148 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:ResultadoEHistorico]/[method:historicoSinPartidasEnCurso()] (189 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:robarTarde()] (178 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:turnoExitoso()] (270 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:fueraDeTurno()] (1542 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:ResultadoEHistorico]/[method:partidaCompleta()] (2593 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.30.1 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManejadorErrores.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pelusas-backend</a> &gt; <a href="index.source.html" class="el_package">com.pelusas.api</a> &gt; <span class="el_source">ManejadorErrores.java</span></div><h1>ManejadorErrores.java</h1><pre class="source lang-java linenums">package com.pelusas.api;
+
+import com.pelusas.api.dto.ErrorResponse;
+import com.pelusas.dominio.ReglaJuegoException;
+import com.pelusas.servicio.PartidaNoEncontradaException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+/** Traduce las excepciones a respuestas JSON con un código de error legible. */
+@RestControllerAdvice
+<span class="fc" id="L16">public class ManejadorErrores {</span>
+
+    static final String SOLICITUD_INVALIDA = &quot;SOLICITUD_INVALIDA&quot;;
+
+    @ExceptionHandler(ReglaJuegoException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; reglaDeJuego(ReglaJuegoException ex) {
+<span class="fc" id="L22">        return responder(HttpStatus.valueOf(ex.getCodigo().getEstadoHttp()), ex.getCodigo().name(), ex.getMessage());</span>
+    }
+
+    @ExceptionHandler(PartidaNoEncontradaException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; partidaNoEncontrada(PartidaNoEncontradaException ex) {
+<span class="fc" id="L27">        return responder(HttpStatus.NOT_FOUND, &quot;PARTIDA_NO_ENCONTRADA&quot;, ex.getMessage());</span>
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; validacion(MethodArgumentNotValidException ex) {
+<span class="fc" id="L32">        return responder(HttpStatus.BAD_REQUEST, SOLICITUD_INVALIDA,</span>
+<span class="fc" id="L33">                ex.getBindingResult().getFieldErrors().getFirst().getDefaultMessage());</span>
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; cuerpoIlegible(HttpMessageNotReadableException ex) {
+<span class="fc" id="L38">        return responder(HttpStatus.BAD_REQUEST, SOLICITUD_INVALIDA, &quot;El cuerpo de la solicitud no es un JSON válido&quot;);</span>
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity&lt;ErrorResponse&gt; tipoInvalido(MethodArgumentTypeMismatchException ex) {
+<span class="fc" id="L43">        return responder(HttpStatus.BAD_REQUEST, SOLICITUD_INVALIDA,</span>
+<span class="fc" id="L44">                &quot;Valor inválido para '&quot; + ex.getName() + &quot;': &quot; + ex.getValue());</span>
+    }
+
+    private ResponseEntity&lt;ErrorResponse&gt; responder(HttpStatus estado, String codigo, String mensaje) {
+<span class="fc" id="L48">        return ResponseEntity.status(estado).body(new ErrorResponse(estado.value(), codigo, mensaje));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

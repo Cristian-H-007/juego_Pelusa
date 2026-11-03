@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Desempate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pelusas-backend</a> &gt; <a href="index.source.html" class="el_package">com.pelusas.dominio</a> &gt; <span class="el_source">Desempate.java</span></div><h1>Desempate.java</h1><pre class="source lang-java linenums">package com.pelusas.dominio;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.IntStream;
+
+/**
+ * Determina el ganador: gana la mayor puntuación. Si hay empate, gana quien tenga más cartas de valor 1;
+ * si persiste, más cartas de valor 2, y así sucesivamente hasta el 10.
+ */
+public final class Desempate {
+
+<span class="fc" id="L14">    private static final List&lt;Integer&gt; VALORES_EN_ORDEN =</span>
+<span class="fc" id="L15">            IntStream.rangeClosed(Mazo.VALOR_MINIMO, Mazo.VALOR_MAXIMO).boxed().toList();</span>
+
+<span class="fc" id="L17">    public static final Comparator&lt;Jugador&gt; CRITERIO = Desempate::comparar;</span>
+
+    private Desempate() {
+    }
+
+    static int comparar(Jugador a, Jugador b) {
+<span class="fc" id="L23">        int resultado = Integer.compare(a.puntos(), b.puntos());</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for (int valor : VALORES_EN_ORDEN) {</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">            if (resultado != 0) {</span>
+<span class="fc" id="L26">                return resultado;</span>
+            }
+<span class="fc" id="L28">            resultado = Integer.compare(a.cantidadEnMonton(valor), b.cantidadEnMonton(valor));</span>
+<span class="fc" id="L29">        }</span>
+<span class="fc" id="L30">        return resultado;</span>
+    }
+
+    /** Devuelve el ganador; si dos jugadores quedan idénticos en todos los criterios, ambos ganan. */
+    public static List&lt;Jugador&gt; ganadores(List&lt;Jugador&gt; jugadores) {
+<span class="fc" id="L35">        Jugador mejor = Collections.max(jugadores, CRITERIO);</span>
+<span class="fc" id="L36">        return jugadores.stream()</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">                .filter(jugador -&gt; comparar(jugador, mejor) == 0)</span>
+<span class="fc" id="L38">                .toList();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

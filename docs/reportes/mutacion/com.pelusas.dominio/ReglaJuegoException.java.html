@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>ReglaJuegoException.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package com.pelusas.dominio;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/** Se lanza cuando una acci&#243;n solicitada viola una regla del juego. */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public class ReglaJuegoException extends RuntimeException {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private final CodigoError codigo;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public ReglaJuegoException(CodigoError codigo, String mensaje) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        super(mensaje);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.codigo = codigo;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public CodigoError getCodigo() {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_14'/>
+14
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_14'>1</a>
+<span>
+
+1. getCodigo : replaced return value with null for com/pelusas/dominio/ReglaJuegoException::getCodigo &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return codigo;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@7060b10e_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@7060b10e_14'>14</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@7060b10e_14'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getCodigo<br/><b>Killed by : </b>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[test-template:rechazaValoresFueraDeRango(int)]/[test-template-invocation:#3]</span></span> replaced return value with null for com/pelusas/dominio/ReglaJuegoException::getCodigo &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[test-template:rechazaValoresFueraDeRango(int)]/[test-template-invocation:#3] (1 ms)</li><li>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[test-template:rechazaValoresFueraDeRango(int)]/[test-template-invocation:#4] (1 ms)</li><li>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[test-template:rechazaValoresFueraDeRango(int)]/[test-template-invocation:#2] (1 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Creacion]/[method:rechazaListaNula()] (1 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Creacion]/[test-template:rechazaCantidadInvalidaDeJugadores(int)]/[test-template-invocation:#2] (1 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Creacion]/[test-template:rechazaCantidadInvalidaDeJugadores(int)]/[test-template-invocation:#3] (1 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Creacion]/[test-template:rechazaCantidadInvalidaDeJugadores(int)]/[test-template-invocation:#1] (1 ms)</li><li>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[method:rechazaDistribucionUniforme()] (2 ms)</li><li>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[method:rechazaCartasConValoresNoPermitidos()] (2 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Creacion]/[method:rechazaNombresVaciosONulos()] (3 ms)</li><li>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[method:sacarDeUnMazoVacioLanzaError()] (2 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Creacion]/[method:rechazaUnMazoInvalido()] (2 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Invariantes]/[method:buscarJugadorInexistenteLanzaError()] (4 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:SacarCarta]/[method:soloPuedeSacarElJugadorDelTurno()] (2 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Plantarse]/[method:debeSacarAntesDePlantarse()] (3 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:CrearPartida]/[method:rechazaSieteJugadores()] (9 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:GuardarPelusas]/[method:noPuedeGuardarSinCartas()] (3 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Plantarse]/[method:noPuedePlantarseFueraDeSuTurno()] (2 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:CrearPartida]/[method:rechazaUnJugador()] (10 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:resultadoDePartidaEnCurso()] (5 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:CrearPartida]/[method:rechazaNombresRepetidos()] (11 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:RobarCartas]/[method:noPuedeRobarFueraDeSuTurno()] (2 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:GuardarPelusas]/[method:noPuedeGuardarFueraDeSuTurno()] (3 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:sacarFueraDeTurno()] (5 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:RobarCartas]/[method:noPuedeRobarAntesDeSacar()] (3 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:GuardarPelusas]/[method:noPuedeGuardarDespuesDeSacar()] (2 ms)</li><li>com.pelusas.servicio.PartidaServiceTest.[engine:junit-jupiter]/[class:com.pelusas.servicio.PartidaServiceTest]/[method:jugadorQueNoPerteneceALaPartida()] (8 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:RobarCartas]/[method:laOportunidadSeCierraAlSacarOtraCarta()] (3 ms)</li><li>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[method:rechazaUnMazoIncompleto()] (21 ms)</li><li>com.pelusas.dominio.MazoTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.MazoTest]/[test-template:rechazaValoresFueraDeRango(int)]/[test-template-invocation:#1] (25 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:RobarCartas]/[method:soloUnRoboPorCarta()] (3 ms)</li><li>com.pelusas.dominio.PartidaTest.[engine:junit-jupiter]/[class:com.pelusas.dominio.PartidaTest]/[nested-class:Finalizacion]/[method:noAdmiteAccionesAlTerminar()] (7 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:ResultadoEHistorico]/[method:resultadoEnCurso()] (49 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:plantarseSinSacar()] (48 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:jugadorDeOtraPartida()] (100 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:guardarSinCartas()] (115 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:robarDosVeces()] (111 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:robarTarde()] (178 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:fueraDeTurno()] (1542 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:ResultadoEHistorico]/[method:partidaCompleta()] (2593 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.30.1 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

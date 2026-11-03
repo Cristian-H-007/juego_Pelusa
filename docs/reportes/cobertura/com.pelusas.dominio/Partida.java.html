@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Partida.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pelusas-backend</a> &gt; <a href="index.source.html" class="el_package">com.pelusas.dominio</a> &gt; <span class="el_source">Partida.java</span></div><h1>Partida.java</h1><pre class="source lang-java linenums">package com.pelusas.dominio;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+/**
+ * Partida de Pelusas. Contiene todas las reglas del juego: el frontend solo solicita acciones
+ * y esta clase valida si están permitidas y las ejecuta.
+ */
+@Entity
+public class Partida {
+
+    public static final int MINIMO_JUGADORES = 2;
+    public static final int MAXIMO_JUGADORES = 6;
+    public static final int LONGITUD_MAXIMA_NOMBRE = 20;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoPartida estado;
+
+    @Column(nullable = false)
+    private LocalDateTime fechaCreacion;
+
+    private LocalDateTime fechaFin;
+
+    @Embedded
+    private Mazo mazo;
+
+    private int cartasDescartadas;
+
+    private int posicionJugadorActual;
+
+    /** Indica si el jugador actual ya sacó al menos una carta en este turno. */
+    private boolean haSacadoEnTurno;
+
+    /** Valor de la última carta sacada mientras todavía se puede robar; null si no hay robo disponible. */
+    private Integer valorRobable;
+
+    private Integer ultimaCarta;
+
+    @Enumerated(EnumType.STRING)
+    private TipoEvento ultimoEvento;
+
+    private String mensajeEvento;
+
+<span class="fc" id="L68">    @OneToMany(mappedBy = &quot;partida&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</span>
+    @OrderBy(&quot;posicion&quot;)
+    private List&lt;Jugador&gt; jugadores = new ArrayList&lt;&gt;();
+
+<span class="fc" id="L72">    protected Partida() {</span>
+<span class="fc" id="L73">    }</span>
+
+    /**
+     * Crea una partida con los jugadores en el orden indicado (el primero inicia) y un mazo ya mezclado.
+     */
+    public static Partida crear(List&lt;String&gt; nombres, List&lt;Integer&gt; cartasMezcladas) {
+<span class="fc" id="L79">        validarNombres(nombres);</span>
+<span class="fc" id="L80">        Partida partida = new Partida();</span>
+<span class="fc" id="L81">        partida.mazo = Mazo.desde(cartasMezcladas);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (int posicion = 0; posicion &lt; nombres.size(); posicion++) {</span>
+<span class="fc" id="L83">            partida.jugadores.add(new Jugador(nombres.get(posicion).trim(), posicion, partida));</span>
+        }
+<span class="fc" id="L85">        partida.estado = EstadoPartida.EN_CURSO;</span>
+<span class="fc" id="L86">        partida.fechaCreacion = LocalDateTime.now();</span>
+<span class="fc" id="L87">        partida.registrarEvento(TipoEvento.PARTIDA_CREADA,</span>
+<span class="fc" id="L88">                &quot;Partida creada. Inicia &quot; + partida.getJugadorActual().getNombre());</span>
+<span class="fc" id="L89">        return partida;</span>
+    }
+
+    private static void validarNombres(List&lt;String&gt; nombres) {
+<span class="fc bfc" id="L93" title="All 6 branches covered.">        if (nombres == null || nombres.size() &lt; MINIMO_JUGADORES || nombres.size() &gt; MAXIMO_JUGADORES) {</span>
+<span class="fc" id="L94">            throw new ReglaJuegoException(CodigoError.JUGADORES_INVALIDOS,</span>
+                    &quot;La partida debe tener entre &quot; + MINIMO_JUGADORES + &quot; y &quot; + MAXIMO_JUGADORES + &quot; jugadores&quot;);
+        }
+<span class="fc" id="L97">        Set&lt;String&gt; nombresUnicos = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        for (String nombre : nombres) {</span>
+<span class="fc bfc" id="L99" title="All 4 branches covered.">            if (nombre == null || nombre.isBlank()) {</span>
+<span class="fc" id="L100">                throw new ReglaJuegoException(CodigoError.JUGADORES_INVALIDOS, &quot;Todos los jugadores deben tener nombre&quot;);</span>
+            }
+<span class="fc" id="L102">            String limpio = nombre.trim();</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            if (limpio.length() &gt; LONGITUD_MAXIMA_NOMBRE) {</span>
+<span class="fc" id="L104">                throw new ReglaJuegoException(CodigoError.JUGADORES_INVALIDOS,</span>
+                        &quot;El nombre no puede superar &quot; + LONGITUD_MAXIMA_NOMBRE + &quot; caracteres: &quot; + limpio);
+            }
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            if (!nombresUnicos.add(limpio.toLowerCase(Locale.ROOT))) {</span>
+<span class="fc" id="L108">                throw new ReglaJuegoException(CodigoError.JUGADORES_INVALIDOS, &quot;Nombre de jugador repetido: &quot; + limpio);</span>
+            }
+<span class="fc" id="L110">        }</span>
+<span class="fc" id="L111">    }</span>
+
+    // ---------------------------------------------------------------- acciones del turno
+
+    /** Paso 1: al inicio del turno, antes de sacar, el jugador puede guardar las cartas que sobrevivieron. */
+    public void guardarPelusas(Jugador jugador) {
+<span class="fc" id="L117">        validarTurno(jugador);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (!puedeGuardar()) {</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">            throw new ReglaJuegoException(CodigoError.NO_PUEDE_GUARDAR, haSacadoEnTurno</span>
+<span class="fc" id="L120">                    ? &quot;Solo se pueden guardar pelusas al inicio del turno, antes de sacar una carta&quot;</span>
+<span class="fc" id="L121">                    : &quot;No tienes cartas delante para guardar&quot;);</span>
+        }
+<span class="fc" id="L123">        int guardadas = jugador.guardarCartasDelante();</span>
+<span class="fc" id="L124">        registrarEvento(TipoEvento.PELUSAS_GUARDADAS,</span>
+<span class="fc" id="L125">                jugador.getNombre() + &quot; guardó &quot; + guardadas + &quot; carta(s) en su montón de puntos&quot;);</span>
+<span class="fc" id="L126">    }</span>
+
+    /** Paso 2: saca la carta superior del montón de polvo y aplica la regla de pérdida. */
+    public void sacarCarta(Jugador jugador) {
+<span class="fc" id="L130">        validarTurno(jugador);</span>
+<span class="fc" id="L131">        int carta = mazo.sacar();</span>
+<span class="fc" id="L132">        ultimaCarta = carta;</span>
+<span class="fc" id="L133">        haSacadoEnTurno = true;</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        if (jugador.pierdeAlSacar(carta)) {</span>
+<span class="fc" id="L135">            int descartadas = jugador.descartarCartasDelante() + 1;</span>
+<span class="fc" id="L136">            cartasDescartadas += descartadas;</span>
+<span class="fc" id="L137">            pasarTurno();</span>
+<span class="fc" id="L138">            registrarEvento(TipoEvento.TURNO_PERDIDO, jugador.getNombre() + &quot; sacó un &quot; + carta</span>
+                    + &quot; repetido y perdió el turno. Se descartaron &quot; + descartadas + &quot; carta(s). Turno de &quot;
+<span class="fc" id="L140">                    + getJugadorActual().getNombre());</span>
+<span class="fc" id="L141">        } else {</span>
+<span class="fc" id="L142">            jugador.colocarDelante(carta);</span>
+<span class="fc" id="L143">            valorRobable = carta;</span>
+<span class="fc" id="L144">            registrarEvento(TipoEvento.CARTA_SACADA, jugador.getNombre() + &quot; sacó un &quot; + carta);</span>
+        }
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (mazo.estaVacio()) {</span>
+<span class="fc" id="L147">            finalizar();</span>
+        }
+<span class="fc" id="L149">    }</span>
+
+    /** Paso 3: justo después de sacar una carta, toma las cartas de ese valor que tengan los demás jugadores. */
+    public void robarCartas(Jugador jugador) {
+<span class="fc" id="L153">        validarTurno(jugador);</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        if (!puedeRobar()) {</span>
+<span class="fc" id="L155">            throw new ReglaJuegoException(CodigoError.NO_PUEDE_ROBAR,</span>
+                    &quot;Solo puedes robar justo después de sacar una carta cuyo valor tenga otro jugador delante&quot;);
+        }
+<span class="fc" id="L158">        int valor = valorRobable;</span>
+<span class="fc" id="L159">        int robadas = 0;</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        for (Jugador otro : jugadores) {</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">            if (otro != jugador) {</span>
+<span class="fc" id="L162">                List&lt;Integer&gt; cartas = otro.entregarCartasDeValor(valor);</span>
+<span class="fc" id="L163">                robadas += cartas.size();</span>
+<span class="fc" id="L164">                jugador.colocarDelante(cartas);</span>
+            }
+<span class="fc" id="L166">        }</span>
+<span class="fc" id="L167">        valorRobable = null;</span>
+<span class="fc" id="L168">        registrarEvento(TipoEvento.CARTAS_ROBADAS,</span>
+<span class="fc" id="L169">                jugador.getNombre() + &quot; robó &quot; + robadas + &quot; carta(s) de valor &quot; + valor);</span>
+<span class="fc" id="L170">    }</span>
+
+    /** Finaliza voluntariamente el turno: las cartas quedan delante para guardarlas en el siguiente turno. */
+    public void plantarse(Jugador jugador) {
+<span class="fc" id="L174">        validarTurno(jugador);</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        if (!puedePlantarse()) {</span>
+<span class="fc" id="L176">            throw new ReglaJuegoException(CodigoError.NO_PUEDE_PLANTARSE,</span>
+                    &quot;Debes sacar al menos una carta antes de plantarte&quot;);
+        }
+<span class="fc" id="L179">        pasarTurno();</span>
+<span class="fc" id="L180">        registrarEvento(TipoEvento.PLANTADO,</span>
+<span class="fc" id="L181">                jugador.getNombre() + &quot; se plantó. Turno de &quot; + getJugadorActual().getNombre());</span>
+<span class="fc" id="L182">    }</span>
+
+    // ---------------------------------------------------------------- consultas
+
+    public Jugador buscarJugador(Long jugadorId) {
+<span class="fc" id="L187">        return jugadores.stream()</span>
+<span class="fc" id="L188">                .filter(jugador -&gt; jugadorId.equals(jugador.getId()))</span>
+<span class="fc" id="L189">                .findFirst()</span>
+<span class="fc" id="L190">                .orElseThrow(() -&gt; new ReglaJuegoException(CodigoError.JUGADOR_NO_PERTENECE,</span>
+                        &quot;El jugador &quot; + jugadorId + &quot; no pertenece a la partida&quot;));
+    }
+
+    public boolean estaEnCurso() {
+<span class="fc bfc" id="L195" title="All 2 branches covered.">        return estado == EstadoPartida.EN_CURSO;</span>
+    }
+
+    public boolean puedeGuardar() {
+<span class="fc bfc" id="L199" title="All 6 branches covered.">        return estaEnCurso() &amp;&amp; !haSacadoEnTurno &amp;&amp; !getJugadorActual().getCartasDelante().isEmpty();</span>
+    }
+
+    public boolean puedeSacar() {
+<span class="fc" id="L203">        return estaEnCurso();</span>
+    }
+
+    public boolean puedeRobar() {
+<span class="fc bfc" id="L207" title="All 4 branches covered.">        return estaEnCurso() &amp;&amp; valorRobable != null &amp;&amp; jugadores.stream()</span>
+<span class="fc bfc" id="L208" title="All 6 branches covered.">                .anyMatch(otro -&gt; otro != getJugadorActual() &amp;&amp; otro.tieneCartasDeValor(valorRobable));</span>
+    }
+
+    public boolean puedePlantarse() {
+<span class="fc bfc" id="L212" title="All 4 branches covered.">        return estaEnCurso() &amp;&amp; haSacadoEnTurno;</span>
+    }
+
+    public Jugador getJugadorActual() {
+<span class="fc" id="L216">        return jugadores.get(posicionJugadorActual);</span>
+    }
+
+    public Jugador getJugadorInicial() {
+<span class="fc" id="L220">        return jugadores.get(0);</span>
+    }
+
+    public List&lt;Jugador&gt; getGanadores() {
+<span class="fc" id="L224">        return jugadores.stream().filter(Jugador::isGanador).toList();</span>
+    }
+
+    // ---------------------------------------------------------------- internos
+
+    private void validarTurno(Jugador jugador) {
+<span class="fc bfc" id="L230" title="All 2 branches covered.">        if (!estaEnCurso()) {</span>
+<span class="fc" id="L231">            throw new ReglaJuegoException(CodigoError.PARTIDA_FINALIZADA, &quot;La partida ya terminó&quot;);</span>
+        }
+<span class="fc bfc" id="L233" title="All 2 branches covered.">        if (jugador != getJugadorActual()) {</span>
+<span class="fc" id="L234">            throw new ReglaJuegoException(CodigoError.NO_ES_SU_TURNO,</span>
+<span class="fc" id="L235">                    &quot;No es el turno de &quot; + jugador.getNombre() + &quot;. Es el turno de &quot; + getJugadorActual().getNombre());</span>
+        }
+<span class="fc" id="L237">    }</span>
+
+    private void pasarTurno() {
+<span class="fc" id="L240">        posicionJugadorActual = (posicionJugadorActual + 1) % jugadores.size();</span>
+<span class="fc" id="L241">        haSacadoEnTurno = false;</span>
+<span class="fc" id="L242">        valorRobable = null;</span>
+<span class="fc" id="L243">    }</span>
+
+    /** Al agotarse el montón de polvo todos guardan lo que tienen delante y se decide el ganador. */
+    private void finalizar() {
+<span class="fc" id="L247">        jugadores.forEach(Jugador::guardarCartasDelante);</span>
+<span class="fc" id="L248">        List&lt;Jugador&gt; ganadores = Desempate.ganadores(jugadores);</span>
+<span class="fc" id="L249">        jugadores.forEach(jugador -&gt; jugador.registrarResultado(ganadores.contains(jugador)));</span>
+<span class="fc" id="L250">        estado = EstadoPartida.FINALIZADA;</span>
+<span class="fc" id="L251">        fechaFin = LocalDateTime.now();</span>
+<span class="fc" id="L252">        haSacadoEnTurno = false;</span>
+<span class="fc" id="L253">        valorRobable = null;</span>
+<span class="fc" id="L254">        registrarEvento(TipoEvento.PARTIDA_FINALIZADA, mensajeResultado(ganadores));</span>
+<span class="fc" id="L255">    }</span>
+
+    static String mensajeResultado(List&lt;Jugador&gt; ganadores) {
+<span class="fc" id="L258">        String nombres = ganadores.stream().map(Jugador::getNombre).collect(Collectors.joining(&quot; y &quot;));</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">        return (ganadores.size() == 1 ? &quot;Ganó &quot; : &quot;Empate entre &quot;) + nombres</span>
+<span class="fc" id="L260">                + &quot; con &quot; + ganadores.getFirst().puntos() + &quot; puntos&quot;;</span>
+    }
+
+    private void registrarEvento(TipoEvento tipo, String mensaje) {
+<span class="fc" id="L264">        this.ultimoEvento = tipo;</span>
+<span class="fc" id="L265">        this.mensajeEvento = mensaje;</span>
+<span class="fc" id="L266">    }</span>
+
+    // ---------------------------------------------------------------- getters
+
+    public Long getId() {
+<span class="fc" id="L271">        return id;</span>
+    }
+
+    public EstadoPartida getEstado() {
+<span class="fc" id="L275">        return estado;</span>
+    }
+
+    public LocalDateTime getFechaCreacion() {
+<span class="fc" id="L279">        return fechaCreacion;</span>
+    }
+
+    public LocalDateTime getFechaFin() {
+<span class="fc" id="L283">        return fechaFin;</span>
+    }
+
+    public Mazo getMazo() {
+<span class="fc" id="L287">        return mazo;</span>
+    }
+
+    public int getCartasDescartadas() {
+<span class="fc" id="L291">        return cartasDescartadas;</span>
+    }
+
+    public boolean isHaSacadoEnTurno() {
+<span class="fc" id="L295">        return haSacadoEnTurno;</span>
+    }
+
+    public Integer getValorRobable() {
+<span class="fc" id="L299">        return valorRobable;</span>
+    }
+
+    public Integer getUltimaCarta() {
+<span class="fc" id="L303">        return ultimaCarta;</span>
+    }
+
+    public TipoEvento getUltimoEvento() {
+<span class="fc" id="L307">        return ultimoEvento;</span>
+    }
+
+    public String getMensajeEvento() {
+<span class="fc" id="L311">        return mensajeEvento;</span>
+    }
+
+    public List&lt;Jugador&gt; getJugadores() {
+<span class="fc" id="L315">        return Collections.unmodifiableList(jugadores);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

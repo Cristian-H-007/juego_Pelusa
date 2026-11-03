@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResultadoResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pelusas-backend</a> &gt; <a href="index.source.html" class="el_package">com.pelusas.api.dto</a> &gt; <span class="el_source">ResultadoResponse.java</span></div><h1>ResultadoResponse.java</h1><pre class="source lang-java linenums">package com.pelusas.api.dto;
+
+import com.pelusas.dominio.Jugador;
+import com.pelusas.dominio.Partida;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+/** Resultado de una partida terminada; también es cada elemento del histórico. */
+<span class="fc" id="L10">public record ResultadoResponse(</span>
+        Long partidaId,
+        LocalDateTime fechaCreacion,
+        LocalDateTime fechaFin,
+        List&lt;String&gt; ganadores,
+        boolean empate,
+        List&lt;ResultadoJugador&gt; jugadores) {
+
+<span class="fc" id="L18">    public record ResultadoJugador(</span>
+            Long id,
+            String nombre,
+            List&lt;Integer&gt; cartasAcumuladas,
+            int cantidadCartas,
+            int puntuacionFinal,
+            boolean ganador) {
+
+        static ResultadoJugador desde(Jugador jugador) {
+<span class="fc" id="L27">            return new ResultadoJugador(</span>
+<span class="fc" id="L28">                    jugador.getId(),</span>
+<span class="fc" id="L29">                    jugador.getNombre(),</span>
+<span class="fc" id="L30">                    List.copyOf(jugador.getMontonPuntos()),</span>
+<span class="fc" id="L31">                    jugador.getMontonPuntos().size(),</span>
+<span class="fc" id="L32">                    jugador.getPuntuacionFinal(),</span>
+<span class="fc" id="L33">                    jugador.isGanador());</span>
+        }
+    }
+
+    public static ResultadoResponse desde(Partida partida) {
+<span class="fc" id="L38">        List&lt;String&gt; ganadores = partida.getGanadores().stream().map(Jugador::getNombre).toList();</span>
+<span class="fc" id="L39">        return new ResultadoResponse(</span>
+<span class="fc" id="L40">                partida.getId(),</span>
+<span class="fc" id="L41">                partida.getFechaCreacion(),</span>
+<span class="fc" id="L42">                partida.getFechaFin(),</span>
+                ganadores,
+<span class="fc bfc" id="L44" title="All 2 branches covered.">                ganadores.size() &gt; 1,</span>
+<span class="fc" id="L45">                partida.getJugadores().stream().map(ResultadoJugador::desde).toList());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

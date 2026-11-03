@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Mazo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pelusas-backend</a> &gt; <a href="index.source.html" class="el_package">com.pelusas.dominio</a> &gt; <span class="el_source">Mazo.java</span></div><h1>Mazo.java</h1><pre class="source lang-java linenums">package com.pelusas.dominio;
+
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.OrderColumn;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+/**
+ * Montón de polvo: las cartas boca abajo de las que se saca en cada turno.
+ * La carta superior es la última de la lista.
+ */
+@Embeddable
+public class Mazo {
+
+    public static final int VALOR_MINIMO = 1;
+    public static final int VALOR_MAXIMO = 10;
+    public static final int TOTAL_CARTAS = 110;
+
+    /** Los valores 1 a 5 tienen 13 copias; los valores 6 a 10 tienen 9 copias. */
+    static final int ULTIMO_VALOR_COMUN = 5;
+    static final int COPIAS_VALOR_COMUN = 13;
+    static final int COPIAS_VALOR_ALTO = 9;
+
+<span class="fc" id="L31">    @ElementCollection</span>
+    @CollectionTable(name = &quot;partida_mazo&quot;)
+    @OrderColumn(name = &quot;posicion&quot;)
+    @Column(name = &quot;valor&quot;, nullable = false)
+    private List&lt;Integer&gt; cartas = new ArrayList&lt;&gt;();
+
+<span class="fc" id="L37">    protected Mazo() {</span>
+<span class="fc" id="L38">    }</span>
+
+<span class="fc" id="L40">    private Mazo(List&lt;Integer&gt; cartas) {</span>
+<span class="fc" id="L41">        this.cartas = new ArrayList&lt;&gt;(cartas);</span>
+<span class="fc" id="L42">    }</span>
+
+    /** Cantidad de copias que el mazo oficial contiene de un valor. */
+    public static int copiasDeValor(int valor) {
+<span class="fc" id="L46">        validarValor(valor);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        return valor &lt;= ULTIMO_VALOR_COMUN ? COPIAS_VALOR_COMUN : COPIAS_VALOR_ALTO;</span>
+    }
+
+    /** Las 110 cartas del juego, ordenadas de menor a mayor valor. */
+    public static List&lt;Integer&gt; cartasOficiales() {
+<span class="fc" id="L52">        List&lt;Integer&gt; cartas = new ArrayList&lt;&gt;(TOTAL_CARTAS);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (int valor = VALOR_MINIMO; valor &lt;= VALOR_MAXIMO; valor++) {</span>
+<span class="fc" id="L54">            cartas.addAll(Collections.nCopies(copiasDeValor(valor), valor));</span>
+        }
+<span class="fc" id="L56">        return cartas;</span>
+    }
+
+    /** Crea el mazo a partir de las cartas ya mezcladas, validando que respeten la distribución oficial. */
+    public static Mazo desde(List&lt;Integer&gt; cartasMezcladas) {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (!esDistribucionOficial(cartasMezcladas)) {</span>
+<span class="fc" id="L62">            throw new ReglaJuegoException(CodigoError.MAZO_INVALIDO,</span>
+                    &quot;El mazo debe contener exactamente las 110 cartas oficiales de Pelusas&quot;);
+        }
+<span class="fc" id="L65">        return new Mazo(cartasMezcladas);</span>
+    }
+
+    static boolean esDistribucionOficial(List&lt;Integer&gt; cartas) {
+<span class="fc" id="L69">        return contarPorValor(cartas).equals(contarPorValor(cartasOficiales()));</span>
+    }
+
+    private static Map&lt;Integer, Integer&gt; contarPorValor(List&lt;Integer&gt; cartas) {
+<span class="fc" id="L73">        Map&lt;Integer, Integer&gt; conteo = new TreeMap&lt;&gt;();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (Integer carta : cartas) {</span>
+<span class="fc" id="L75">            conteo.merge(carta, 1, Integer::sum);</span>
+<span class="fc" id="L76">        }</span>
+<span class="fc" id="L77">        return conteo;</span>
+    }
+
+    private static void validarValor(int valor) {
+<span class="fc bfc" id="L81" title="All 4 branches covered.">        if (valor &lt; VALOR_MINIMO || valor &gt; VALOR_MAXIMO) {</span>
+<span class="fc" id="L82">            throw new ReglaJuegoException(CodigoError.VALOR_INVALIDO,</span>
+                    &quot;El valor de una carta debe estar entre 1 y 10: &quot; + valor);
+        }
+<span class="fc" id="L85">    }</span>
+
+    /** Saca la carta superior del montón de polvo. */
+    public int sacar() {
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (estaVacio()) {</span>
+<span class="fc" id="L90">            throw new ReglaJuegoException(CodigoError.MAZO_VACIO, &quot;No quedan cartas en el montón de polvo&quot;);</span>
+        }
+<span class="fc" id="L92">        return cartas.remove(cartas.size() - 1);</span>
+    }
+
+    public boolean estaVacio() {
+<span class="fc" id="L96">        return cartas.isEmpty();</span>
+    }
+
+    public int cantidad() {
+<span class="fc" id="L100">        return cartas.size();</span>
+    }
+
+    public int cantidadDeValor(int valor) {
+<span class="fc" id="L104">        return Collections.frequency(cartas, valor);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

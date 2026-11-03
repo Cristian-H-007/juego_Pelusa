@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PartidaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pelusas-backend</a> &gt; <a href="index.source.html" class="el_package">com.pelusas.api</a> &gt; <span class="el_source">PartidaController.java</span></div><h1>PartidaController.java</h1><pre class="source lang-java linenums">package com.pelusas.api;
+
+import com.pelusas.api.dto.AccionRequest;
+import com.pelusas.api.dto.CrearPartidaRequest;
+import com.pelusas.api.dto.DecisionRequest;
+import com.pelusas.api.dto.JugadorResponse;
+import com.pelusas.api.dto.PartidaResponse;
+import com.pelusas.api.dto.ResultadoResponse;
+import com.pelusas.servicio.PartidaService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api/partidas&quot;)
+public class PartidaController {
+
+    private final PartidaService servicio;
+
+<span class="fc" id="L28">    public PartidaController(PartidaService servicio) {</span>
+<span class="fc" id="L29">        this.servicio = servicio;</span>
+<span class="fc" id="L30">    }</span>
+
+    @PostMapping
+    public ResponseEntity&lt;PartidaResponse&gt; crear(@Valid @RequestBody CrearPartidaRequest solicitud) {
+<span class="fc" id="L34">        PartidaResponse partida = servicio.crear(solicitud);</span>
+<span class="fc" id="L35">        return ResponseEntity.created(URI.create(&quot;/api/partidas/&quot; + partida.id())).body(partida);</span>
+    }
+
+    @GetMapping(&quot;/historico&quot;)
+    public List&lt;ResultadoResponse&gt; historico() {
+<span class="fc" id="L40">        return servicio.historico();</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public PartidaResponse obtener(@PathVariable Long id) {
+<span class="fc" id="L45">        return servicio.obtener(id);</span>
+    }
+
+    @GetMapping(&quot;/{id}/jugadores&quot;)
+    public List&lt;JugadorResponse&gt; jugadores(@PathVariable Long id) {
+<span class="fc" id="L50">        return servicio.jugadores(id);</span>
+    }
+
+    @PostMapping(&quot;/{id}/turno/guardar&quot;)
+    public PartidaResponse guardarPelusas(@PathVariable Long id, @Valid @RequestBody AccionRequest solicitud) {
+<span class="fc" id="L55">        return servicio.guardarPelusas(id, solicitud.jugadorId());</span>
+    }
+
+    @PostMapping(&quot;/{id}/turno/sacar&quot;)
+    public PartidaResponse sacarCarta(@PathVariable Long id, @Valid @RequestBody AccionRequest solicitud) {
+<span class="fc" id="L60">        return servicio.sacarCarta(id, solicitud.jugadorId());</span>
+    }
+
+    @PostMapping(&quot;/{id}/turno/robar&quot;)
+    public PartidaResponse robarCartas(@PathVariable Long id, @Valid @RequestBody AccionRequest solicitud) {
+<span class="fc" id="L65">        return servicio.robarCartas(id, solicitud.jugadorId());</span>
+    }
+
+    @PostMapping(&quot;/{id}/turno/decision&quot;)
+    public PartidaResponse decidir(@PathVariable Long id, @Valid @RequestBody DecisionRequest solicitud) {
+<span class="fc" id="L70">        return servicio.decidir(id, solicitud.jugadorId(), solicitud.decision());</span>
+    }
+
+    @GetMapping(&quot;/{id}/resultado&quot;)
+    public ResultadoResponse resultado(@PathVariable Long id) {
+<span class="fc" id="L75">        return servicio.resultado(id);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

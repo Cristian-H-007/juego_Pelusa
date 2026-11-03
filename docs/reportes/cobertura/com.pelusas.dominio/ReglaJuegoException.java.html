@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReglaJuegoException.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pelusas-backend</a> &gt; <a href="index.source.html" class="el_package">com.pelusas.dominio</a> &gt; <span class="el_source">ReglaJuegoException.java</span></div><h1>ReglaJuegoException.java</h1><pre class="source lang-java linenums">package com.pelusas.dominio;
+
+/** Se lanza cuando una acción solicitada viola una regla del juego. */
+public class ReglaJuegoException extends RuntimeException {
+
+    private final CodigoError codigo;
+
+    public ReglaJuegoException(CodigoError codigo, String mensaje) {
+<span class="fc" id="L9">        super(mensaje);</span>
+<span class="fc" id="L10">        this.codigo = codigo;</span>
+<span class="fc" id="L11">    }</span>
+
+    public CodigoError getCodigo() {
+<span class="fc" id="L14">        return codigo;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>
