@@ -12,7 +12,8 @@ public enum CodigoError {
     MAZO_VACIO(409),
     NO_PUEDE_GUARDAR(409),
     NO_PUEDE_ROBAR(409),
-    NO_PUEDE_PLANTARSE(409);
+    NO_PUEDE_PLANTARSE(409),
+    COMODIN_YA_USADO(409);
 
     private final int estadoHttp;
 

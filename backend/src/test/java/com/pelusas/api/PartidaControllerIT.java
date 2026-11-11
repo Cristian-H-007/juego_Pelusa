@@ -355,6 +355,67 @@ class PartidaControllerIT {
         }
 
         @Test
+        @DisplayName("Comodín: protege las cartas de Ana y Luis no puede robarle el 5")
+        void comodinBloqueaElRobo() throws Exception {
+            long partidaId = crearPartida(4L);
+            long ana = jugadorId(partidaId, 0);
+            long luis = jugadorId(partidaId, 1);
+            mvc.perform(get(BASE + "/" + partidaId))
+                    .andExpect(jsonPath("$.acciones.puedeUsarComodin").value(true))
+                    .andExpect(jsonPath("$.jugadores[0].comodinUsado").value(false));
+            accion(partidaId, "sacar", ana);
+
+            accion(partidaId, "comodin", ana)
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.ultimoEvento").value("COMODIN_USADO"))
+                    .andExpect(jsonPath("$.acciones.puedeUsarComodin").value(false))
+                    .andExpect(jsonPath("$.jugadores[0].comodinUsado").value(true))
+                    .andExpect(jsonPath("$.jugadores[0].protegido").value(true));
+            decidir(partidaId, ana, "PARAR");
+
+            accion(partidaId, "sacar", luis)
+                    .andExpect(jsonPath("$.ultimaCarta").value(5))
+                    .andExpect(jsonPath("$.acciones.puedeRobar").value(false))
+                    .andExpect(jsonPath("$.acciones.puedeUsarComodin").value(true));
+            accion(partidaId, "robar", luis)
+                    .andExpect(status().isConflict())
+                    .andExpect(jsonPath("$.codigo").value("NO_PUEDE_ROBAR"));
+
+            decidir(partidaId, luis, "PARAR");
+            mvc.perform(get(BASE + "/" + partidaId))
+                    .andExpect(jsonPath("$.jugadores[0].cartasDelante", contains(5)))
+                    .andExpect(jsonPath("$.jugadores[0].protegido").value(false))
+                    .andExpect(jsonPath("$.jugadores[0].comodinUsado").value(true));
+        }
+
+        @Test
+        @DisplayName("409: el comodín solo se puede usar una vez")
+        void comodinUnaSolaVez() throws Exception {
+            long partidaId = crearPartida(2L);
+            long ana = jugadorId(partidaId, 0);
+            accion(partidaId, "comodin", ana).andExpect(status().isOk());
+
+            accion(partidaId, "comodin", ana)
+                    .andExpect(status().isConflict())
+                    .andExpect(jsonPath("$.codigo").value("COMODIN_YA_USADO"))
+                    .andExpect(jsonPath("$.mensaje").value("Ya usaste tu comodín en esta partida"));
+        }
+
+        @Test
+        @DisplayName("Comodín: 409 fuera de turno, 400 sin jugadorId, 404 partida inexistente")
+        void comodinErrores() throws Exception {
+            long partidaId = crearPartida(2L);
+
+            accion(partidaId, "comodin", jugadorId(partidaId, 1))
+                    .andExpect(status().isConflict())
+                    .andExpect(jsonPath("$.codigo").value("NO_ES_SU_TURNO"));
+            mvc.perform(post(BASE + "/" + partidaId + "/turno/comodin").contentType(MediaType.APPLICATION_JSON).content("{}"))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.mensaje").value("El jugadorId es obligatorio"));
+            accion(999999, "comodin", 1).andExpect(status().isNotFound());
+        }
+
+        @Test
         @DisplayName("409: no es el turno del jugador")
         void fueraDeTurno() throws Exception {
             long partidaId = crearPartida(2L);

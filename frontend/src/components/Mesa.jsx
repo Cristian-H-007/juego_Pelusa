@@ -6,6 +6,7 @@ import Resultado from './Resultado.jsx';
 const ESTILO_EVENTO = {
   TURNO_PERDIDO: 'peligro',
   CARTAS_ROBADAS: 'aviso',
+  COMODIN_USADO: 'escudo',
   PELUSAS_GUARDADAS: 'exito',
   PARTIDA_FINALIZADA: 'exito',
 };
@@ -56,10 +57,11 @@ export default function Mesa({ partidaId, onNueva, onHistorico }) {
     );
   const robar = () => ejecutar(() => api.robar(partida.id, actual.id));
   const plantarse = () => ejecutar(() => api.decidir(partida.id, actual.id, 'PARAR'));
+  const usarComodin = () => ejecutar(() => api.comodin(partida.id, actual.id));
 
   const cartasRobables = acciones.puedeRobar
     ? partida.jugadores
-        .filter((j) => j.id !== actual.id)
+        .filter((j) => j.id !== actual.id && !j.protegido)
         .flatMap((j) => j.cartasDelante)
         .filter((c) => c === acciones.valorRobable).length
     : 0;
@@ -115,6 +117,15 @@ export default function Mesa({ partidaId, onNueva, onHistorico }) {
             <button className="boton secundario" onClick={plantarse} disabled={ocupado || !acciones.puedePlantarse} data-testid="btn-plantarse">
               Plantarse
             </button>
+            <button
+              className="boton escudo"
+              onClick={usarComodin}
+              disabled={ocupado || !acciones.puedeUsarComodin}
+              data-testid="btn-comodin"
+              title="Una vez por partida: nadie podrá robarte tus cartas boca arriba hasta tu próximo turno"
+            >
+              {actual.comodinUsado ? 'Comodín usado' : '🛡️ Usar comodín'}
+            </button>
           </div>
           <p className="ayuda">
             {acciones.puedeGuardar
@@ -148,7 +159,15 @@ export default function Mesa({ partidaId, onNueva, onHistorico }) {
                 <h3 data-testid={`nombre-${jugador.posicion}`}>{jugador.nombre}</h3>
                 {esActual && <span className="insignia">Su turno</span>}
                 {jugador.posicion === 0 && <span className="insignia suave">Inicia</span>}
+                {jugador.protegido && (
+                  <span className="insignia escudo" data-testid={`protegido-${jugador.posicion}`}>
+                    🛡️ Protegido
+                  </span>
+                )}
               </header>
+              <p className="etiqueta" data-testid={`comodin-${jugador.posicion}`}>
+                Comodín: {jugador.comodinUsado ? 'usado' : 'disponible'}
+              </p>
               <p className="etiqueta">Delante (en riesgo): {jugador.cartasDelante.length}</p>
               <GruposDeCartas cartas={jugador.cartasDelante} testId={`cartas-delante-${jugador.posicion}`} />
               <footer>

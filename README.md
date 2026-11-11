@@ -99,6 +99,10 @@ juego_Pelusa/
   3. **Robar (opcional):** solo justo después de sacar una carta. Toma las cartas de **ese valor** que tengan
      delante **todos** los demás jugadores. Si saca otra carta sin robar, pierde esa oportunidad. Las cartas ya
      guardadas no se pueden robar.
+- **Comodín (funcionalidad adicional):** cada jugador tiene **un comodín para toda la partida** y puede usarlo en
+  cualquier momento de su turno. Mientras está activo, **nadie puede robarle sus cartas boca arriba**, incluidas las
+  que saque después en ese mismo turno. La protección termina cuando vuelve a empezar su turno. Si varios jugadores
+  tienen el valor sacado, solo se roba a los que no están protegidos. El comodín no protege de la regla de pérdida.
 - **Pérdida del turno:** si la carta sacada tiene un valor que el jugador ya tiene delante **y** tiene 3 o más cartas
   delante (contadas **antes** de colocar la nueva), pierde el turno. Todas sus cartas de delante y la carta sacada se
   descartan (no suman puntos) y el turno pasa al siguiente jugador. Con 2 cartas y una repetida no pierde, y además
@@ -179,6 +183,7 @@ Todos los ejemplos con CURL están en [docs/CURL.md](docs/CURL.md).
 | POST | `/api/partidas/{id}/turno/sacar` | Sacar una carta `{jugadorId}` | 200, 400, 404, 409 |
 | POST | `/api/partidas/{id}/turno/decision` | Continuar o parar `{jugadorId, decision: CONTINUAR\|PARAR}` | 200, 400, 404, 409 |
 | POST | `/api/partidas/{id}/turno/robar` | Robar cartas `{jugadorId}` | 200, 400, 404, 409 |
+| POST | `/api/partidas/{id}/turno/comodin` | Usar el comodín (una vez por partida) `{jugadorId}` | 200, 400, 404, 409 |
 | GET | `/api/partidas/{id}/resultado` | Resultado (solo si terminó) | 200, 404, 409 |
 | GET | `/api/partidas/historico` | Histórico de partidas terminadas | 200 |
 
@@ -257,6 +262,7 @@ los resultados son reproducibles.
 | `e2e/turno-exitoso.spec.js` | **Caso obligatorio 1:** abrir, configurar, sacar, continuar, plantarse, verificar el cambio de turno y que las cartas permanecen; luego guardarlas. También: no poder guardar después de sacar y la validación de nombres en el backend. |
 | `e2e/turno-perdido.spec.js` | **Caso obligatorio 2:** 3 cartas delante, sale una repetida, se detecta la pérdida, se descartan las cartas, pasa el turno y se verifica visualmente (con captura adjunta). También: una repetida con menos de 3 cartas no hace perder. |
 | `e2e/robo.spec.js` | Robo de cartas y pérdida de la oportunidad de robar al sacar otra carta |
+| `e2e/comodin.spec.js` | El comodín impide el robo hasta el siguiente turno y solo se usa una vez |
 | `e2e/partida-completa.spec.js` | Partida completa de 110 cartas: ganador, guardado automático e histórico |
 
 ## Reportes (evidencia)

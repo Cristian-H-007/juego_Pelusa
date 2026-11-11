@@ -70,6 +70,53 @@ class JugadorTest {
         }
     }
 
+    @Nested
+    @DisplayName("Comodín")
+    class Comodin {
+
+        @Test
+        @DisplayName("Al inicio tiene el comodín disponible y no está protegido")
+        void estadoInicial() {
+            Jugador jugador = conCartasDelante(7);
+
+            assertThat(jugador.isComodinUsado()).isFalse();
+            assertThat(jugador.isProtegido()).isFalse();
+            assertThat(jugador.puedenRobarle(7)).isTrue();
+        }
+
+        @Test
+        @DisplayName("Al usarlo queda protegido: no le pueden robar")
+        void usarComodinProtege() {
+            Jugador jugador = conCartasDelante(7);
+
+            jugador.usarComodin();
+
+            assertThat(jugador.isComodinUsado()).isTrue();
+            assertThat(jugador.isProtegido()).isTrue();
+            assertThat(jugador.puedenRobarle(7)).isFalse();
+            assertThat(jugador.tieneCartasDeValor(7)).isTrue();
+        }
+
+        @Test
+        @DisplayName("Al terminar la protección se le puede robar, pero el comodín sigue gastado")
+        void finalizarProteccion() {
+            Jugador jugador = conCartasDelante(7);
+            jugador.usarComodin();
+
+            jugador.finalizarProteccion();
+
+            assertThat(jugador.isProtegido()).isFalse();
+            assertThat(jugador.isComodinUsado()).isTrue();
+            assertThat(jugador.puedenRobarle(7)).isTrue();
+        }
+
+        @Test
+        @DisplayName("No le pueden robar un valor que no tiene, esté o no protegido")
+        void valorQueNoTiene() {
+            assertThat(conCartasDelante(3).puedenRobarle(7)).isFalse();
+        }
+    }
+
     @Test
     void colocarDelanteAgregaLasCartas() {
         Jugador jugador = conCartasDelante(4);

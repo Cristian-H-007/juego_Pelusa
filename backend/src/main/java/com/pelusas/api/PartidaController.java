@@ -65,6 +65,11 @@ public class PartidaController {
         return servicio.robarCartas(id, solicitud.jugadorId());
     }
 
+    @PostMapping("/{id}/turno/comodin")
+    public PartidaResponse usarComodin(@PathVariable Long id, @Valid @RequestBody AccionRequest solicitud) {
+        return servicio.usarComodin(id, solicitud.jugadorId());
+    }
+
     @PostMapping("/{id}/turno/decision")
     public PartidaResponse decidir(@PathVariable Long id, @Valid @RequestBody DecisionRequest solicitud) {
         return servicio.decidir(id, solicitud.jugadorId(), solicitud.decision());

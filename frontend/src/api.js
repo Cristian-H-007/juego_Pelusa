@@ -23,6 +23,7 @@ export const api = {
   guardar: (id, jugadorId) => post(`${BASE}/${id}/turno/guardar`, { jugadorId }),
   sacar: (id, jugadorId) => post(`${BASE}/${id}/turno/sacar`, { jugadorId }),
   robar: (id, jugadorId) => post(`${BASE}/${id}/turno/robar`, { jugadorId }),
+  comodin: (id, jugadorId) => post(`${BASE}/${id}/turno/comodin`, { jugadorId }),
   decidir: (id, jugadorId, decision) => post(`${BASE}/${id}/turno/decision`, { jugadorId, decision }),
   resultado: (id) => solicitar(`${BASE}/${id}/resultado`),
   historico: () => solicitar(`${BASE}/historico`),

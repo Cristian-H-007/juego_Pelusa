@@ -67,6 +67,12 @@ public class PartidaService {
         return PartidaResponse.desde(partida);
     }
 
+    public PartidaResponse usarComodin(Long partidaId, Long jugadorId) {
+        Partida partida = buscar(partidaId);
+        partida.usarComodin(partida.buscarJugador(jugadorId));
+        return PartidaResponse.desde(partida);
+    }
+
     /** CONTINUAR saca otra carta; PARAR finaliza voluntariamente el turno. */
     public PartidaResponse decidir(Long partidaId, Long jugadorId, DecisionRequest.Decision decision) {
         Partida partida = buscar(partidaId);

@@ -84,6 +84,20 @@ class PartidaRepositoryIT {
     }
 
     @Test
+    @DisplayName("Persiste el uso del comodín y la protección")
+    void persisteElComodin() {
+        Partida partida = guardarYRecargar(partida(List.of("Ana", "Luis"), 7));
+        partida.usarComodin(partida.getJugadores().get(0));
+
+        Partida recuperada = guardarYRecargar(partida);
+
+        assertThat(recuperada.getJugadores().get(0).isComodinUsado()).isTrue();
+        assertThat(recuperada.getJugadores().get(0).isProtegido()).isTrue();
+        assertThat(recuperada.getJugadores().get(1).isComodinUsado()).isFalse();
+        assertThat(recuperada.getUltimoEvento()).isEqualTo(TipoEvento.COMODIN_USADO);
+    }
+
+    @Test
     @DisplayName("Persiste los resultados de una partida terminada")
     void persisteElResultado() {
         Partida recuperada = guardarYRecargar(jugarHastaTerminar(partida(List.of("Ana", "Luis"))));

@@ -209,6 +209,21 @@ class PartidaServiceTest {
     }
 
     @Test
+    @DisplayName("Usar comodín: protege al jugador y lo informa en la respuesta")
+    void usarComodin() {
+        repositorioDevuelvePartida();
+        servicio.sacarCarta(PARTIDA_ID, ANA_ID);
+
+        PartidaResponse respuesta = servicio.usarComodin(PARTIDA_ID, ANA_ID);
+
+        assertThat(respuesta.ultimoEvento()).isEqualTo(TipoEvento.COMODIN_USADO);
+        assertThat(respuesta.acciones().puedeUsarComodin()).isFalse();
+        assertThat(respuesta.jugadores().getFirst().comodinUsado()).isTrue();
+        assertThat(respuesta.jugadores().getFirst().protegido()).isTrue();
+        assertThat(respuesta.jugadores().get(1).comodinUsado()).isFalse();
+    }
+
+    @Test
     void guardarPelusas() {
         repositorioDevuelvePartida();
         servicio.sacarCarta(PARTIDA_ID, ANA_ID);

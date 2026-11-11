@@ -153,6 +153,20 @@ button:disabled {
   background: var(--aviso);
 }
 
+.boton.escudo {
+  background: #2f6f9f;
+}
+
+.insignia.escudo {
+  background: #e1eef8;
+  color: #2f6f9f;
+}
+
+.evento.escudo {
+  border-left-color: #2f6f9f;
+  background: #e8f1f8;
+}
+
 .boton.secundario {
   background: transparent;
   color: var(--primario);

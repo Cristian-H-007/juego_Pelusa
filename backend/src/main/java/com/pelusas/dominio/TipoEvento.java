@@ -8,5 +8,6 @@ public enum TipoEvento {
     TURNO_PERDIDO,
     CARTAS_ROBADAS,
     PLANTADO,
+    COMODIN_USADO,
     PARTIDA_FINALIZADA
 }

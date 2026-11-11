@@ -158,7 +158,7 @@ public class Partida {
         int valor = valorRobable;
         int robadas = 0;
         for (Jugador otro : jugadores) {
-            if (otro != jugador) {
+            if (otro != jugador && !otro.isProtegido()) {
                 List<Integer> cartas = otro.entregarCartasDeValor(valor);
                 robadas += cartas.size();
                 jugador.colocarDelante(cartas);
@@ -179,6 +179,20 @@ public class Partida {
         pasarTurno();
         registrarEvento(TipoEvento.PLANTADO,
                 jugador.getNombre() + " se plantó. Turno de " + getJugadorActual().getNombre());
+    }
+
+    /**
+     * Comodín: una vez por partida, en cualquier momento de su turno. Protege todas sus cartas boca arriba
+     * para que nadie se las robe hasta que vuelva a empezar su turno.
+     */
+    public void usarComodin(Jugador jugador) {
+        validarTurno(jugador);
+        if (!puedeUsarComodin()) {
+            throw new ReglaJuegoException(CodigoError.COMODIN_YA_USADO, "Ya usaste tu comodín en esta partida");
+        }
+        jugador.usarComodin();
+        registrarEvento(TipoEvento.COMODIN_USADO, jugador.getNombre()
+                + " usó su comodín: nadie podrá robarle sus cartas hasta su próximo turno");
     }
 
     // ---------------------------------------------------------------- consultas
@@ -205,7 +219,11 @@ public class Partida {
 
     public boolean puedeRobar() {
         return estaEnCurso() && valorRobable != null && jugadores.stream()
-                .anyMatch(otro -> otro != getJugadorActual() && otro.tieneCartasDeValor(valorRobable));
+                .anyMatch(otro -> otro != getJugadorActual() && otro.puedenRobarle(valorRobable));
+    }
+
+    public boolean puedeUsarComodin() {
+        return estaEnCurso() && !getJugadorActual().isComodinUsado();
     }
 
     public boolean puedePlantarse() {
@@ -240,6 +258,7 @@ public class Partida {
         posicionJugadorActual = (posicionJugadorActual + 1) % jugadores.size();
         haSacadoEnTurno = false;
         valorRobable = null;
+        getJugadorActual().finalizarProteccion();
     }
 
     /** Al agotarse el montón de polvo todos guardan lo que tienen delante y se decide el ganador. */

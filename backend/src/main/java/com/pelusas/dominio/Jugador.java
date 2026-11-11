@@ -56,6 +56,14 @@ public class Jugador {
 
     private boolean ganador;
 
+    /** Cada jugador tiene un único comodín por partida. */
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean comodinUsado;
+
+    /** Mientras está activo el comodín, nadie puede robarle sus cartas boca arriba. */
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean protegido;
+
     protected Jugador() {
     }
 
@@ -80,6 +88,21 @@ public class Jugador {
 
     boolean tieneCartasDeValor(int valor) {
         return cartasDelante.contains(valor);
+    }
+
+    /** Se le pueden robar cartas de ese valor si las tiene delante y no está protegido por su comodín. */
+    boolean puedenRobarle(int valor) {
+        return !protegido && tieneCartasDeValor(valor);
+    }
+
+    void usarComodin() {
+        comodinUsado = true;
+        protegido = true;
+    }
+
+    /** El comodín protege hasta que vuelve a empezar el turno de este jugador. */
+    void finalizarProteccion() {
+        protegido = false;
     }
 
     /** Retira y devuelve todas las cartas de ese valor que el jugador tiene delante. */
@@ -143,5 +166,13 @@ public class Jugador {
 
     public boolean isGanador() {
         return ganador;
+    }
+
+    public boolean isComodinUsado() {
+        return comodinUsado;
+    }
+
+    public boolean isProtegido() {
+        return protegido;
     }
 }

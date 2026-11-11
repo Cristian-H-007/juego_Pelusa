@@ -12,7 +12,9 @@ public record JugadorResponse(
         List<Integer> montonPuntos,
         int puntos,
         Integer puntuacionFinal,
-        boolean ganador) {
+        boolean ganador,
+        boolean comodinUsado,
+        boolean protegido) {
 
     public static JugadorResponse desde(Jugador jugador) {
         return new JugadorResponse(
@@ -23,6 +25,8 @@ public record JugadorResponse(
                 List.copyOf(jugador.getMontonPuntos()),
                 jugador.puntos(),
                 jugador.getPuntuacionFinal(),
-                jugador.isGanador());
+                jugador.isGanador(),
+                jugador.isComodinUsado(),
+                jugador.isProtegido());
     }
 }

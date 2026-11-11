@@ -5,3 +5,6 @@ Thumbs.db
 .vscode/
 *.iml
 .claude/
+# Resultados de Playwright si se ejecuta desde la raíz
+test-results/
+playwright-report/

@@ -166,6 +166,20 @@ curl -i -X POST http://localhost:8080/api/partidas/1/turno/robar \
 
 Si no se puede robar, responde **409 NO_PUEDE_ROBAR**.
 
+## 7b. Turno: usar el comodín
+
+`POST /api/partidas/{id}/turno/comodin` → **200 OK**
+
+Una vez por partida, en cualquier momento del turno. Protege todas las cartas boca arriba del jugador para que
+nadie se las robe hasta que vuelva a empezar su turno.
+
+```bash
+curl -i -X POST http://localhost:8080/api/partidas/1/turno/comodin \
+  -H "Content-Type: application/json" -d '{"jugadorId":1}'
+```
+
+Si el jugador ya lo usó, responde **409 COMODIN_YA_USADO**. Fuera de turno, responde **409 NO_ES_SU_TURNO**.
+
 ---
 
 ## 8. Consultar el resultado de la partida

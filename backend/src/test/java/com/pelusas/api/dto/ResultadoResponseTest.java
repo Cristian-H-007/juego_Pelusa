@@ -35,7 +35,9 @@ class ResultadoResponseTest {
         Jugador luis = jugador(2L, "Luis", List.of(7, 3), true);
         Partida partida = mock(Partida.class);
         LocalDateTime fin = LocalDateTime.of(2026, 11, 3, 10, 0);
+        LocalDateTime inicio = LocalDateTime.of(2026, 11, 3, 9, 30);
         when(partida.getId()).thenReturn(5L);
+        when(partida.getFechaCreacion()).thenReturn(inicio);
         when(partida.getFechaFin()).thenReturn(fin);
         when(partida.getGanadores()).thenReturn(List.of(ana, luis));
         when(partida.getJugadores()).thenReturn(List.of(ana, luis));
@@ -43,7 +45,11 @@ class ResultadoResponseTest {
         ResultadoResponse resultado = ResultadoResponse.desde(partida);
 
         assertThat(resultado.partidaId()).isEqualTo(5L);
+        assertThat(resultado.fechaCreacion()).isEqualTo(inicio);
         assertThat(resultado.fechaFin()).isEqualTo(fin);
+        assertThat(resultado.jugadores()).extracting(ResultadoResponse.ResultadoJugador::id).containsExactly(1L, 2L);
+        assertThat(resultado.jugadores()).extracting(ResultadoResponse.ResultadoJugador::nombre)
+                .containsExactly("Ana", "Luis");
         assertThat(resultado.empate()).isTrue();
         assertThat(resultado.ganadores()).containsExactly("Ana", "Luis");
         assertThat(resultado.jugadores()).extracting(ResultadoResponse.ResultadoJugador::puntuacionFinal)

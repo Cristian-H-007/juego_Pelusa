@@ -28,6 +28,7 @@ public record PartidaResponse(
             boolean puedeSacar,
             boolean puedeRobar,
             boolean puedePlantarse,
+            boolean puedeUsarComodin,
             Integer valorRobable) {
     }
 
@@ -37,6 +38,7 @@ public record PartidaResponse(
                 partida.puedeSacar(),
                 partida.puedeRobar(),
                 partida.puedePlantarse(),
+                partida.puedeUsarComodin(),
                 partida.getValorRobable());
         return new PartidaResponse(
                 partida.getId(),

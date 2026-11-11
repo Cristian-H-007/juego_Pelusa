@@ -657,6 +657,195 @@ class PartidaTest {
         }
     }
 
+    // ================================================================== comodín
+
+    @Nested
+    @DisplayName("Comodín")
+    class Comodin {
+
+        @Test
+        @DisplayName("Cada jugador inicia con su comodín disponible")
+        void disponibleAlInicio() {
+            Partida partida = partida(DOS);
+
+            assertThat(partida.puedeUsarComodin()).isTrue();
+            assertThat(partida.getJugadores()).allSatisfy(j -> {
+                assertThat(j.isComodinUsado()).isFalse();
+                assertThat(j.isProtegido()).isFalse();
+            });
+        }
+
+        @Test
+        @DisplayName("Usar el comodín protege al jugador y lo gasta")
+        void usarComodin() {
+            Partida partida = partida(DOS, 7);
+            Jugador ana = jugador(partida, 0);
+            partida.sacarCarta(ana);
+
+            partida.usarComodin(ana);
+
+            assertThat(ana.isComodinUsado()).isTrue();
+            assertThat(ana.isProtegido()).isTrue();
+            assertThat(partida.puedeUsarComodin()).isFalse();
+            assertThat(partida.getUltimoEvento()).isEqualTo(TipoEvento.COMODIN_USADO);
+            assertThat(partida.getMensajeEvento())
+                    .isEqualTo("Ana usó su comodín: nadie podrá robarle sus cartas hasta su próximo turno");
+            assertThat(partida.getJugadorActual()).isSameAs(ana);
+            assertThat(partida.puedePlantarse()).isTrue();
+        }
+
+        @Test
+        @DisplayName("Con el comodín activo no le pueden robar sus cartas")
+        void bloqueaElRobo() {
+            Partida partida = partida(DOS, 7, 7);
+            Jugador ana = jugador(partida, 0);
+            Jugador luis = jugador(partida, 1);
+            partida.sacarCarta(ana);
+            partida.usarComodin(ana);
+            partida.plantarse(ana);
+
+            partida.sacarCarta(luis);
+
+            assertThat(partida.puedeRobar()).isFalse();
+            assertError(() -> partida.robarCartas(luis), CodigoError.NO_PUEDE_ROBAR);
+            assertThat(ana.getCartasDelante()).containsExactly(7);
+            assertThat(ana.isProtegido()).isTrue();
+        }
+
+        @Test
+        @DisplayName("Si varios tienen el valor, solo se roba a quienes no están protegidos")
+        void soloRobaALosNoProtegidos() {
+            Partida partida = partida(TRES, 7, 7, 7);
+            Jugador ana = jugador(partida, 0);
+            Jugador luis = jugador(partida, 1);
+            Jugador eva = jugador(partida, 2);
+            partida.sacarCarta(ana);
+            partida.usarComodin(ana);
+            partida.plantarse(ana);
+            partida.sacarCarta(luis);
+            partida.plantarse(luis);
+            partida.sacarCarta(eva);
+
+            assertThat(partida.puedeRobar()).isTrue();
+            partida.robarCartas(eva);
+
+            assertThat(ana.getCartasDelante()).containsExactly(7);
+            assertThat(luis.getCartasDelante()).isEmpty();
+            assertThat(eva.getCartasDelante()).containsExactly(7, 7);
+            assertThat(partida.getMensajeEvento()).isEqualTo("Eva robó 1 carta(s) de valor 7");
+        }
+
+        @Test
+        @DisplayName("Protege también las cartas que saca después de activarlo en el mismo turno")
+        void protegeCartasSacadasDespues() {
+            Partida partida = partida(DOS, 7, 7);
+            Jugador ana = jugador(partida, 0);
+            Jugador luis = jugador(partida, 1);
+            partida.usarComodin(ana); // al inicio del turno, antes de sacar
+            partida.sacarCarta(ana);
+            partida.plantarse(ana);
+
+            partida.sacarCarta(luis);
+
+            assertThat(partida.puedeRobar()).isFalse();
+            assertThat(ana.getCartasDelante()).containsExactly(7);
+        }
+
+        @Test
+        @DisplayName("La protección termina cuando vuelve a empezar su turno")
+        void protegeHastaSuProximoTurno() {
+            Partida partida = partida(DOS, 7, 3, 9, 7);
+            Jugador ana = jugador(partida, 0);
+            Jugador luis = jugador(partida, 1);
+            partida.sacarCarta(ana);
+            partida.usarComodin(ana);
+            partida.plantarse(ana);
+            partida.sacarCarta(luis);
+            partida.plantarse(luis);
+
+            assertThat(ana.isProtegido()).isFalse();
+            assertThat(ana.isComodinUsado()).isTrue();
+
+            partida.sacarCarta(ana);
+            partida.plantarse(ana);
+            partida.sacarCarta(luis);
+
+            assertThat(partida.puedeRobar()).isTrue();
+            partida.robarCartas(luis);
+            assertThat(ana.getCartasDelante()).containsExactly(9);
+        }
+
+        @Test
+        @DisplayName("La protección también termina si el turno le vuelve por una pérdida de otro jugador")
+        void terminaTrasPerdidaDeOtro() {
+            Partida partida = partida(DOS, 8, 1, 2, 3, 1);
+            Jugador ana = jugador(partida, 0);
+            Jugador luis = jugador(partida, 1);
+            partida.sacarCarta(ana);
+            partida.usarComodin(ana);
+            partida.plantarse(ana);
+            for (int i = 0; i < 4; i++) {
+                partida.sacarCarta(luis);
+            }
+
+            assertThat(partida.getJugadorActual()).isSameAs(ana);
+            assertThat(ana.isProtegido()).isFalse();
+        }
+
+        @Test
+        @DisplayName("Solo se puede usar una vez en toda la partida")
+        void soloUnaVez() {
+            Partida partida = partida(DOS, 7, 3);
+            Jugador ana = jugador(partida, 0);
+            Jugador luis = jugador(partida, 1);
+            partida.usarComodin(ana);
+
+            assertThatThrownBy(() -> partida.usarComodin(ana))
+                    .isInstanceOf(ReglaJuegoException.class)
+                    .hasMessage("Ya usaste tu comodín en esta partida")
+                    .extracting("codigo").isEqualTo(CodigoError.COMODIN_YA_USADO);
+
+            partida.sacarCarta(ana);
+            partida.plantarse(ana);
+            partida.sacarCarta(luis);
+            partida.plantarse(luis);
+
+            assertThat(partida.puedeUsarComodin()).isFalse();
+            assertError(() -> partida.usarComodin(ana), CodigoError.COMODIN_YA_USADO);
+        }
+
+        @Test
+        @DisplayName("Cada jugador tiene su propio comodín")
+        void cadaJugadorTieneElSuyo() {
+            Partida partida = partida(DOS, 7);
+            Jugador ana = jugador(partida, 0);
+            Jugador luis = jugador(partida, 1);
+            partida.usarComodin(ana);
+            partida.sacarCarta(ana);
+            partida.plantarse(ana);
+
+            assertThat(partida.puedeUsarComodin()).isTrue();
+            partida.usarComodin(luis);
+            assertThat(luis.isComodinUsado()).isTrue();
+        }
+
+        @Test
+        void soloEnSuTurno() {
+            Partida partida = partida(DOS);
+
+            assertError(() -> partida.usarComodin(jugador(partida, 1)), CodigoError.NO_ES_SU_TURNO);
+            assertThat(jugador(partida, 1).isComodinUsado()).isFalse();
+        }
+
+        @Test
+        void noSePuedeUsarConLaPartidaTerminada() {
+            Partida partida = jugarHastaTerminar(partida(DOS));
+
+            assertThat(partida.puedeUsarComodin()).isFalse();
+            assertError(() -> partida.usarComodin(partida.getJugadorActual()), CodigoError.PARTIDA_FINALIZADA);
+        }
+    }
+
     // ================================================================== fin de la partida
 
     @Nested

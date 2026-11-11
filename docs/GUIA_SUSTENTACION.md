@@ -13,6 +13,7 @@ Respuestas rápidas a las preguntas típicas del profesor, con la ubicación exa
 | Aplicar la pérdida (descartar y pasar el turno) | `Partida.sacarCarta`: [Partida.java:129](../backend/src/main/java/com/pelusas/dominio/Partida.java) |
 | Guardar pelusas solo al inicio del turno | `Partida.guardarPelusas` y `puedeGuardar`: [Partida.java:116](../backend/src/main/java/com/pelusas/dominio/Partida.java) |
 | Robar solo justo después de sacar, a todos los jugadores | `Partida.robarCartas` y `puedeRobar`: [Partida.java:152](../backend/src/main/java/com/pelusas/dominio/Partida.java) |
+| Comodín (usar, una vez por partida) | `Partida.usarComodin` y `puedeUsarComodin`; la protección en `Jugador.puedenRobarle`; termina en `Partida.pasarTurno` (`finalizarProteccion`) |
 | Plantarse (finalizar voluntariamente) | `Partida.plantarse`: [Partida.java:173](../backend/src/main/java/com/pelusas/dominio/Partida.java) |
 | ¿Es el turno del jugador? ¿Terminó la partida? | `Partida.validarTurno`: [Partida.java:229](../backend/src/main/java/com/pelusas/dominio/Partida.java) |
 | Fin de partida y guardado automático | `Partida.finalizar`: [Partida.java:246](../backend/src/main/java/com/pelusas/dominio/Partida.java) |
