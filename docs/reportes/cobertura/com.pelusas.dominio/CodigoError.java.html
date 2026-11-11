@@ -12,16 +12,17 @@
 <span class="fc" id="L12">    MAZO_VACIO(409),</span>
 <span class="fc" id="L13">    NO_PUEDE_GUARDAR(409),</span>
 <span class="fc" id="L14">    NO_PUEDE_ROBAR(409),</span>
-<span class="fc" id="L15">    NO_PUEDE_PLANTARSE(409);</span>
+<span class="fc" id="L15">    NO_PUEDE_PLANTARSE(409),</span>
+<span class="fc" id="L16">    COMODIN_YA_USADO(409);</span>
 
     private final int estadoHttp;
 
-<span class="fc" id="L19">    CodigoError(int estadoHttp) {</span>
-<span class="fc" id="L20">        this.estadoHttp = estadoHttp;</span>
-<span class="fc" id="L21">    }</span>
+<span class="fc" id="L20">    CodigoError(int estadoHttp) {</span>
+<span class="fc" id="L21">        this.estadoHttp = estadoHttp;</span>
+<span class="fc" id="L22">    }</span>
 
     public int getEstadoHttp() {
-<span class="fc" id="L24">        return estadoHttp;</span>
+<span class="fc" id="L25">        return estadoHttp;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

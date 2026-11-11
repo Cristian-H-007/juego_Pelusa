@@ -67,37 +67,43 @@ public class PartidaService {
 <span class="fc" id="L67">        return PartidaResponse.desde(partida);</span>
     }
 
+    public PartidaResponse usarComodin(Long partidaId, Long jugadorId) {
+<span class="fc" id="L71">        Partida partida = buscar(partidaId);</span>
+<span class="fc" id="L72">        partida.usarComodin(partida.buscarJugador(jugadorId));</span>
+<span class="fc" id="L73">        return PartidaResponse.desde(partida);</span>
+    }
+
     /** CONTINUAR saca otra carta; PARAR finaliza voluntariamente el turno. */
     public PartidaResponse decidir(Long partidaId, Long jugadorId, DecisionRequest.Decision decision) {
-<span class="fc" id="L72">        Partida partida = buscar(partidaId);</span>
-<span class="fc" id="L73">        Jugador jugador = partida.buscarJugador(jugadorId);</span>
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (decision == DecisionRequest.Decision.CONTINUAR) {</span>
-<span class="fc" id="L75">            partida.sacarCarta(jugador);</span>
-        } else {
-<span class="fc" id="L77">            partida.plantarse(jugador);</span>
+<span class="fc" id="L78">        Partida partida = buscar(partidaId);</span>
+<span class="fc" id="L79">        Jugador jugador = partida.buscarJugador(jugadorId);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if (decision == DecisionRequest.Decision.CONTINUAR) {</span>
+<span class="fc" id="L81">            partida.sacarCarta(jugador);</span>
+<span class="fc" id="L82">        } else {</span>
+<span class="fc" id="L83">            partida.plantarse(jugador);</span>
         }
-<span class="fc" id="L79">        return PartidaResponse.desde(partida);</span>
+<span class="fc" id="L85">        return PartidaResponse.desde(partida);</span>
     }
 
     @Transactional(readOnly = true)
     public ResultadoResponse resultado(Long partidaId) {
-<span class="fc" id="L84">        Partida partida = buscar(partidaId);</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (partida.estaEnCurso()) {</span>
-<span class="fc" id="L86">            throw new ReglaJuegoException(CodigoError.PARTIDA_NO_FINALIZADA,</span>
-                    &quot;La partida &quot; + partidaId + &quot; todavía está en curso&quot;);
+<span class="fc" id="L90">        Partida partida = buscar(partidaId);</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (partida.estaEnCurso()) {</span>
+<span class="fc" id="L92">            throw new ReglaJuegoException(CodigoError.PARTIDA_NO_FINALIZADA,</span>
+<span class="fc" id="L93">                    &quot;La partida &quot; + partidaId + &quot; todavía está en curso&quot;);</span>
         }
-<span class="fc" id="L89">        return ResultadoResponse.desde(partida);</span>
+<span class="fc" id="L95">        return ResultadoResponse.desde(partida);</span>
     }
 
     @Transactional(readOnly = true)
     public List&lt;ResultadoResponse&gt; historico() {
-<span class="fc" id="L94">        return repositorio.buscarPorEstado(EstadoPartida.FINALIZADA).stream()</span>
-<span class="fc" id="L95">                .map(ResultadoResponse::desde)</span>
-<span class="fc" id="L96">                .toList();</span>
+<span class="fc" id="L100">        return repositorio.buscarPorEstado(EstadoPartida.FINALIZADA).stream()</span>
+<span class="fc" id="L101">                .map(ResultadoResponse::desde)</span>
+<span class="fc" id="L102">                .toList();</span>
     }
 
     private Partida buscar(Long partidaId) {
-<span class="fc" id="L100">        return repositorio.findById(partidaId).orElseThrow(() -&gt; new PartidaNoEncontradaException(partidaId));</span>
+<span class="fc" id="L106">        return repositorio.findById(partidaId).orElseThrow(() -&gt; new PartidaNoEncontradaException(partidaId));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

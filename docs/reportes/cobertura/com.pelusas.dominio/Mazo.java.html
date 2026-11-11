@@ -28,11 +28,11 @@ public class Mazo {
     static final int COPIAS_VALOR_COMUN = 13;
     static final int COPIAS_VALOR_ALTO = 9;
 
-<span class="fc" id="L31">    @ElementCollection</span>
+    @ElementCollection
     @CollectionTable(name = &quot;partida_mazo&quot;)
     @OrderColumn(name = &quot;posicion&quot;)
     @Column(name = &quot;valor&quot;, nullable = false)
-    private List&lt;Integer&gt; cartas = new ArrayList&lt;&gt;();
+<span class="fc" id="L35">    private List&lt;Integer&gt; cartas = new ArrayList&lt;&gt;();</span>
 
 <span class="fc" id="L37">    protected Mazo() {</span>
 <span class="fc" id="L38">    }</span>
@@ -60,7 +60,7 @@ public class Mazo {
     public static Mazo desde(List&lt;Integer&gt; cartasMezcladas) {
 <span class="fc bfc" id="L61" title="All 2 branches covered.">        if (!esDistribucionOficial(cartasMezcladas)) {</span>
 <span class="fc" id="L62">            throw new ReglaJuegoException(CodigoError.MAZO_INVALIDO,</span>
-                    &quot;El mazo debe contener exactamente las 110 cartas oficiales de Pelusas&quot;);
+<span class="fc" id="L63">                    &quot;El mazo debe contener exactamente las 110 cartas oficiales de Pelusas&quot;);</span>
         }
 <span class="fc" id="L65">        return new Mazo(cartasMezcladas);</span>
     }
@@ -73,14 +73,14 @@ public class Mazo {
 <span class="fc" id="L73">        Map&lt;Integer, Integer&gt; conteo = new TreeMap&lt;&gt;();</span>
 <span class="fc bfc" id="L74" title="All 2 branches covered.">        for (Integer carta : cartas) {</span>
 <span class="fc" id="L75">            conteo.merge(carta, 1, Integer::sum);</span>
-<span class="fc" id="L76">        }</span>
+        }
 <span class="fc" id="L77">        return conteo;</span>
     }
 
     private static void validarValor(int valor) {
 <span class="fc bfc" id="L81" title="All 4 branches covered.">        if (valor &lt; VALOR_MINIMO || valor &gt; VALOR_MAXIMO) {</span>
 <span class="fc" id="L82">            throw new ReglaJuegoException(CodigoError.VALOR_INVALIDO,</span>
-                    &quot;El valor de una carta debe estar entre 1 y 10: &quot; + valor);
+<span class="fc" id="L83">                    &quot;El valor de una carta debe estar entre 1 y 10: &quot; + valor);</span>
         }
 <span class="fc" id="L85">    }</span>
 

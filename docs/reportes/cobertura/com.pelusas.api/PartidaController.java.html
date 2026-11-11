@@ -65,14 +65,19 @@ public class PartidaController {
 <span class="fc" id="L65">        return servicio.robarCartas(id, solicitud.jugadorId());</span>
     }
 
+    @PostMapping(&quot;/{id}/turno/comodin&quot;)
+    public PartidaResponse usarComodin(@PathVariable Long id, @Valid @RequestBody AccionRequest solicitud) {
+<span class="fc" id="L70">        return servicio.usarComodin(id, solicitud.jugadorId());</span>
+    }
+
     @PostMapping(&quot;/{id}/turno/decision&quot;)
     public PartidaResponse decidir(@PathVariable Long id, @Valid @RequestBody DecisionRequest solicitud) {
-<span class="fc" id="L70">        return servicio.decidir(id, solicitud.jugadorId(), solicitud.decision());</span>
+<span class="fc" id="L75">        return servicio.decidir(id, solicitud.jugadorId(), solicitud.decision());</span>
     }
 
     @GetMapping(&quot;/{id}/resultado&quot;)
     public ResultadoResponse resultado(@PathVariable Long id) {
-<span class="fc" id="L75">        return servicio.resultado(id);</span>
+<span class="fc" id="L80">        return servicio.resultado(id);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.16.202610240946</span></div></body></html>

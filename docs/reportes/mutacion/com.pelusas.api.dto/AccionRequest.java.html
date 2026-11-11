@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>AccionRequest.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@5402612e_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@5402612e_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>package com.pelusas.api.dto;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@5402612e_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@5402612e_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@5402612e_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@5402612e_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.validation.constraints.NotNull;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@5402612e_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@5402612e_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@5402612e_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@5402612e_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/** Identifica al jugador que solicita la acci&#243;n; el backend verifica que sea su turno. */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@5402612e_6'/>
+6
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@5402612e_6'>1</a>
+<span>
+
+1. jugadorId : replaced Long return value with 0L for com/pelusas/api/dto/AccionRequest::jugadorId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>public record AccionRequest(@NotNull(message = &#34;El jugadorId es obligatorio&#34;) Long jugadorId) {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@5402612e_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@5402612e_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@5402612e_6'>6</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@5402612e_6'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>jugadorId<br/><b>Killed by : </b>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:guardarSinCartas()]</span></span> replaced Long return value with 0L for com/pelusas/api/dto/AccionRequest::jugadorId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+
+<li class='mutator'>EMPTY_RETURNS</li>
+
+<li class='mutator'>FALSE_RETURNS</li>
+
+<li class='mutator'>INCREMENTS</li>
+
+<li class='mutator'>INVERT_NEGS</li>
+
+<li class='mutator'>MATH</li>
+
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+
+<li class='mutator'>NULL_RETURNS</li>
+
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+
+<li class='mutator'>TRUE_RETURNS</li>
+
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:accionEnPartidaInexistente()] (47 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:guardarSinCartas()] (79 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:fueraDeTurno()] (92 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:CrearPartida]/[method:semillaReproducible()] (99 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:continuar()] (114 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:jugadorDeOtraPartida()] (137 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:comodinUnaSolaVez()] (190 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:turnoPerdido()] (190 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:comodinBloqueaElRobo()] (269 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:robarTarde()] (291 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:robo()] (299 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:robarDosVeces()] (371 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:turnoExitoso()] (456 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:Turno]/[method:comodinErrores()] (2088 ms)</li><li>com.pelusas.api.PartidaControllerIT.[engine:junit-jupiter]/[class:com.pelusas.api.PartidaControllerIT]/[nested-class:ResultadoEHistorico]/[method:partidaCompleta()] (3977 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.30.1 <a href='https://github.com/sponsors/hcoles'>support</a>
+
+</body>
+</html>

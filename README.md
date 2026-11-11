@@ -7,11 +7,11 @@ El proyecto está respaldado por pruebas automatizadas en tres niveles: unitaria
 
 | Indicador | Resultado |
 |---|---|
-| Pruebas unitarias (JUnit 5 + Mockito) | 137 |
-| Pruebas de integración (MockMvc + base H2 real) | 35 |
-| Pruebas funcionales (Playwright + JavaScript) | 8 |
+| Pruebas unitarias (JUnit 5 + Mockito) | 155 |
+| Pruebas de integración (MockMvc + base H2 real) | 39 |
+| Pruebas funcionales (Playwright + JavaScript) | 9 |
 | Cobertura (JaCoCo: líneas, ramas, instrucciones y métodos) | **100 %** |
-| Mutation score (PIT) | **100 %** (183 de 183 mutantes eliminados) |
+| Mutation score (PIT) | **100 %** (267 de 267 mutantes eliminados) |
 
 ## Integrantes
 
@@ -168,7 +168,7 @@ Abre **http://localhost:5173**, escribe los nombres de los jugadores y pulsa **I
 |---|---|---|
 | 2 | 7, 5, 9, 8 | turno exitoso y guardar pelusas |
 | 3 | 9, 5, 1, 5 | turno perdido (la 4.ª carta repite con 3 cartas delante) |
-| 4 | 5, 5, 4, 4 | robo (el 2.º jugador saca 5 y roba el 5 del 1.º) |
+| 4 | 5, 5, 4, 4 | robo (el 2.º jugador saca 5 y roba el 5 del 1.º); comodín (si el 1.º lo usa, el 2.º no puede robarle) |
 
 ## API REST
 
@@ -207,11 +207,12 @@ Todos los comandos de backend se ejecutan dentro de `backend/`. En Windows usa `
 |---|---|
 | `MazoTest` | 110 cartas, 13 copias del 1 al 5 y 9 del 6 al 10, valores permitidos, extracción, mazo vacío, distribuciones inválidas |
 | `JugadorTest` | regla de pérdida (1, 2, 3 y más de 3 cartas, carta repetida y no repetida, 7-7-7), guardar, descartar, entregar cartas |
-| `PartidaTest` | creación y validaciones, sacar, continuar, plantarse, guardar, robar, pérdida, rotación de turnos, fin de partida, invariante de 110 cartas |
+| `PartidaTest` | creación y validaciones, sacar, continuar, plantarse, guardar, robar, pérdida, comodín, rotación de turnos, fin de partida, invariante de 110 cartas |
 | `DesempateTest` | ganador por puntos, desempate por valor 1, 2… hasta encontrar diferencia, empate total |
 | `BarajadorTest` | la semilla hace la mezcla reproducible y se conservan las cartas |
 | `PartidaServiceTest` | **Mockito:** simula `PartidaRepository` (la base de datos) y `Barajador` (el azar) para probar los casos de uso aislados |
 | `ResultadoResponseTest` | **Mockito:** simula una partida empatada para probar el DTO de resultado |
+| `PartidaResponseTest` | Que el estado de la partida (fechas, acciones permitidas, ganador, comodín) llegue completo a la respuesta de la API |
 
 ### Pruebas de integración: clases `*IT`
 

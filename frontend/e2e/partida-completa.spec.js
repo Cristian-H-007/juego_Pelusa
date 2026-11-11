@@ -3,22 +3,28 @@ import { SEMILLA, crearPartida, sacar } from './utilidades.js';
 
 test.describe('Finalización e histórico', () => {
   test('al agotarse el montón de polvo se muestra el ganador y la partida queda en el histórico', async ({ page }) => {
-    test.setTimeout(180_000);
+    test.setTimeout(300_000);
     await crearPartida(page, ['Ana', 'Luis'], SEMILLA.EXITO);
     const mesa = page.getByTestId('mesa');
     const textoPartida = await page.getByTestId('nav-mesa').textContent();
     const partidaId = textoPartida.replace(/\D/g, '');
 
     // Cada jugador guarda si puede, saca una carta y se planta, hasta terminar las 110 cartas
+    // Antes de cada decisión se espera a que la interfaz termine de actualizarse (botón Sacar habilitado),
+    // para no leer el estado de los botones mientras la petición anterior sigue en curso.
+    const sacarHabilitado = () => expect(page.getByTestId('btn-sacar')).toBeEnabled();
     while ((await mesa.getAttribute('data-estado')) === 'EN_CURSO') {
+      await sacarHabilitado();
       if (await page.getByTestId('btn-guardar').isEnabled()) {
         await page.getByTestId('btn-guardar').click();
         await expect(page.getByTestId('btn-guardar')).toBeDisabled();
+        await sacarHabilitado();
       }
       await sacar(page);
       if ((await mesa.getAttribute('data-estado')) === 'EN_CURSO') {
+        await expect(page.getByTestId('btn-plantarse')).toBeEnabled();
         await page.getByTestId('btn-plantarse').click();
-        await expect(page.getByTestId('btn-plantarse')).toBeDisabled();
+        await expect(page.getByTestId('btn-sacar')).toHaveText('Sacar carta');
       }
     }
 
